@@ -1,0 +1,361 @@
+/*
+ *	HTC Calendar	ver.1.0 (2006.07.06)
+ *
+ *		작성자 : 이동진
+ *		사용법 :
+ *
+ *			<HTML>
+ *			<HEAD>
+ *			.........
+ *			<style type="text/css">
+ *			input.calendar { behavior:url(calendar.htc); }
+ *			</style>
+ *			.........
+ *			</HEAD>
+ *			<BODY>
+ *			.........
+ *			<input type="text" name="text1" size="10" value="2005-06-01" class="calendar">
+ *			<input type="text" name="text2" size="10" value="" class="calendar">
+ *			.........
+ *			</BODY>
+ *			</HTML>
+ *
+ *		버그사항 :
+ *			1. Day 가 01 일 경우 월이 02 월이 되야 년도가 바뀜.
+ *
+ */
+
+<public:component>
+
+<public:attach event="oncontentready" handler="_fnInit" />
+
+<public:attach event="onclick" handler="_fnShowCalendar" />
+<public:attach event="onkeydown" handler="_fnShowCalendar" />
+
+</public:component>
+
+<script type="text/javascript">
+
+var _CSS_TEXT_ = "background-color : #f7f7f7; border: 1px solid #dddddd; height: 19px;";
+var _CSS_CALTEXT_ = "text-align:center;font:9pt 굴림체;padding-top:3px;";
+var _CSS_CALBTN_ = "width:18px;height:8px;overflow:hidden;margin:0px;padding-top:1px;padding-bottom:0px;text-align:center;font:7px 굴림체;cursor:default;";
+var _CAL_HEAD_ = "font:bold 9pt 굴림체;text-align:center;padding-top:5px;padding-bottom:2px;color:#e1e2e2;";
+var _CAL_BODY_ = "font:9pt 굴림체;text-align:center;padding-top:5px;padding-bottom:2px;";
+
+var _CAL_IMG_ = "<img src='/images/btn_date.gif' border=0  align=absmiddle style='margin-left:1px;cursor:hand;'>";
+
+var lm_bStatus = false;
+
+var lm_oCalWin, lm_oCalDoc, lm_oCalBody;
+
+var lm_iLeft = 0;
+var lm_iTop = 0;
+var lm_iWidth = 180;
+var lm_iHeight = 196;
+
+var lm_oYear, lm_oMonth;
+
+var lm_oDays = [];
+
+var lm_iYear, lm_iMonth, lm_iDay;
+
+var lm_iLastDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+var lm_bLastDay = false;
+
+function _fnInit()
+{
+	// INPUT 속성 설정...
+	this.readOnly = true;
+	this.style.cssText = _CSS_TEXT_;
+
+	// 달력 버튼 생성...
+	var im_oCalBtn = document.createElement(_CAL_IMG_);
+
+	with (im_oCalBtn) {
+		onfocus = blur;
+		onclick = _fnShowCalendar;
+	}
+
+	insertAdjacentElement("afterEnd", im_oCalBtn);
+
+	_fnGetDate("Init");
+
+	// 달력 생성...
+	lm_iLeft = _fnGetCalLeft(this) + 2;
+	lm_iTop = _fnGetCalTop(this) + this.offsetHeight + 2;
+
+	lm_oCalWin = window.createPopup();
+	lm_oCalDoc = lm_oCalWin.document;
+	lm_oCalBody = lm_oCalDoc.body;
+	lm_oCalBody.style.cssText = "border:1px #808080 solid;overflow:hidden;margin:0px;padding:6px;";
+
+	var im_oTable0, im_oRow0, im_oCell0;
+	var im_oTable1, im_oRow1, im_oCell1;
+
+	im_oTable0 = lm_oCalDoc.createElement("TABLE");
+	im_oTable0.width = "100%";
+	im_oTable0.border = 0;
+	im_oTable0.cellPadding = 0;
+	im_oTable0.cellSpacing = 0;
+	im_oTable0.style.cssText = "margin-bottom:5px;";
+	lm_oCalBody.appendChild(im_oTable0);
+
+	im_oRow0 = im_oTable0.insertRow();
+
+	im_oCell0 = im_oRow0.insertCell();
+	{
+		im_oTable1 = lm_oCalDoc.createElement("TABLE");
+		im_oTable1.border = 0;
+		im_oTable1.cellPadding = 0;
+		im_oTable1.cellSpacing = 1;
+		im_oTable1.bgColor = "#A0A0A0";
+
+		im_oRow1 = im_oTable1.insertRow();
+		im_oRow1.bgColor = "#ffffff";
+
+		lm_oYear = im_oRow1.insertCell();
+		lm_oYear.rowSpan = 2;
+		lm_oYear.style.cssText = _CSS_CALTEXT_;
+		lm_oYear.style.width = 60;
+		lm_oYear.onselectstart = function() { return false; };
+
+		im_oCell1 = im_oRow1.insertCell();
+		im_oCell1.style.cssText = _CSS_CALBTN_;
+		im_oCell1.innerHTML = "▲";
+		im_oCell1.onmouseup = function () { lm_iYear++; _fnAdjustCalendar(); };
+		im_oCell1.onselectstart = function() { return false; };
+
+		im_oRow1 = im_oTable1.insertRow();
+		im_oRow1.bgColor = "#ffffff";
+
+		im_oCell1 = im_oRow1.insertCell();
+		im_oCell1.style.cssText = _CSS_CALBTN_;
+		im_oCell1.innerHTML = "▼";
+		im_oCell1.onmouseup = function () { lm_iYear--; _fnAdjustCalendar(); };
+		im_oCell1.onselectstart = function() { return false; };
+	}
+	im_oCell0.appendChild(im_oTable1);
+
+	im_oCell0 = im_oRow0.insertCell();
+	im_oCell0.align = "right";
+	{
+		im_oTable1 = lm_oCalDoc.createElement("TABLE");
+		im_oTable1.border = 0;
+		im_oTable1.cellPadding = 0;
+		im_oTable1.cellSpacing = 1;
+		im_oTable1.bgColor = "#A0A0A0";
+
+		im_oRow1 = im_oTable1.insertRow();
+		im_oRow1.bgColor = "#ffffff";
+
+		lm_oMonth = im_oRow1.insertCell();
+		lm_oMonth.rowSpan = 2;
+		lm_oMonth.style.cssText = _CSS_CALTEXT_;
+		lm_oMonth.style.width = 44;
+		lm_oMonth.onselectstart = function() { return false; }
+
+		im_oCell1 = im_oRow1.insertCell();
+		im_oCell1.style.cssText = _CSS_CALBTN_;
+		im_oCell1.innerHTML = "▲";
+		im_oCell1.onmouseup = function () { lm_iMonth++; _fnAdjustCalendar(); };
+		im_oCell1.onselectstart = function() { return false; };
+
+		im_oRow1 = im_oTable1.insertRow();
+		im_oRow1.bgColor = "#ffffff";
+
+		im_oCell1 = im_oRow1.insertCell();
+		im_oCell1.style.cssText = _CSS_CALBTN_;
+		im_oCell1.innerHTML = "▼";
+		im_oCell1.onmouseup = function () { lm_iMonth--; _fnAdjustCalendar(); };
+		im_oCell1.onselectstart = function() { return false; };
+	}
+	im_oCell0.appendChild(im_oTable1);
+
+	var im_sWeeks = ["일", "월", "화", "수", "목", "금", "토"];
+
+	im_oTable0 = lm_oCalDoc.createElement("TABLE");
+	im_oTable0.width = "100%";
+	im_oTable0.border = 0;
+	im_oTable0.cellPadding = 0;
+	im_oTable0.cellSpacing = 1;
+	im_oTable0.bgColor = "#A0A0A0";
+	lm_oCalBody.appendChild(im_oTable0);
+
+	im_oRow0 = im_oTable0.insertRow();
+
+	for (var im_iCol = 0; im_iCol < 7; im_iCol++) {
+		im_oCell0 = im_oRow0.insertCell();
+		im_oCell0.style.cssText = _CAL_HEAD_;
+		im_oCell0.innerHTML = im_sWeeks[im_iCol];
+	}
+
+	for (var im_iRow = 0; im_iRow < 6; im_iRow++) {
+		im_oRow0 = im_oTable0.insertRow();
+
+		for (var im_iCol = 0; im_iCol < 7; im_iCol++) {
+			im_oCell0 = im_oRow0.insertCell();
+			im_oCell0.style.cssText = _CAL_BODY_;
+			im_oCell0.style.backgroundColor = "#ffffff";
+			im_oCell0.innerHTML = "&nbsp;";
+			im_oCell0.onmouseover = function() { if (this.innerText != " " && this.style.backgroundColor == "#ffffff") this.style.backgroundColor = "#feff9d"; };
+			im_oCell0.onmouseout = function() { if (this.innerText != " " && this.style.backgroundColor == "#feff9d") this.style.backgroundColor = "#ffffff"; };
+			im_oCell0.onclick = _fnSelectedDate;
+			im_oCell0.onselectstart = function() { return false; };
+
+			lm_oDays[lm_oDays.length] = im_oCell0;
+		}
+	}
+
+	_fnAdjustCalendar();
+}
+
+function _fnAdjustCalendar()
+{
+	if (lm_iYear > 9999) 
+		lm_iYear = 9999;
+	else if (lm_iYear < 1) 
+		lm_iYear = 1;
+
+	if (lm_iMonth > 12) {
+		lm_iYear++;
+		lm_iMonth = 1;
+	} else if(lm_iMonth < 1) {
+		lm_iYear--;
+		lm_iMonth = 12;
+	}
+
+	if (lm_iDay >= lm_iLastDays[lm_iMonth-1])
+		lm_bLastDay = true;
+	else
+		lm_bLastDay = false;
+
+	// 윤년계산...
+	if ((lm_iYear % 4) == 0 && (lm_iYear % 100) != 0 || (lm_iYear) % 400 == 0) 
+		lm_iLastDays[1] = 29;
+
+	lm_oYear.innerHTML = lm_iYear.toString() + " 년";
+	lm_oMonth.innerHTML = lm_iMonth.toString() + " 월";
+
+	// 시작일과 종료일...
+	var im_oFirstDate = new Date(lm_iYear, lm_iMonth-1, 1);
+
+	var im_iStartNum = im_oFirstDate.getDay();
+	var im_iEndNum = im_iStartNum + lm_iLastDays[lm_iMonth-1] - 1;
+
+	var im_iDay = 0;
+
+	if (lm_bLastDay)
+		lm_iDay = lm_iLastDays[lm_iMonth-1];
+
+	for (var i = 0; i < 42; i++) {
+		im_iDay = i - im_iStartNum + 1;
+
+		if (i >= im_iStartNum && i <= im_iEndNum) {
+			lm_oDays[i].innerHTML = im_iDay;
+			lm_oDays[i].style.cursor = "hand";
+		} else {
+			lm_oDays[i].innerHTML = "&nbsp;";
+			lm_oDays[i].style.cursor = "default";
+		}
+
+		if (im_iDay == lm_iDay) {
+			lm_oDays[i].style.backgroundColor = "#404040";
+			lm_oDays[i].style.color = "#ffffff";
+		} else {
+			lm_oDays[i].style.backgroundColor = "#ffffff";
+
+			switch (i % 7) {
+				case 0:
+					lm_oDays[i].style.color = "#fe3222";
+					break;
+				case 6:
+					lm_oDays[i].style.color = "#0043be";
+					break;
+				default:
+					lm_oDays[i].style.color = "#404040";
+			}
+		}
+	}
+}
+
+function _fnSelectedDate()
+{
+	if (parseInt(this.innerText,10) > 0) {
+		var im_sYear = lm_iYear.toString();
+		var im_sMonth = lm_iMonth.toString();
+			im_sMonth = im_sMonth.length == 1 ? "0" + im_sMonth : im_sMonth;
+		var im_sDay = this.innerText;
+			im_sDay = im_sDay.length == 1 ? "0" + im_sDay : im_sDay;
+
+		_fnSetDate(im_sYear + "-" + im_sMonth + "-" + im_sDay);
+
+		_fnHideCalendar();
+	}
+}
+
+function _fnGetDate()
+{
+	var im_oArg = _fnGetDate.arguments;
+	var im_iArg = im_oArg.length;
+
+	if (this.value != "") {
+		lm_iYear = parseInt(this.value.substr(0,4), 10);
+		lm_iMonth = parseInt(this.value.substr(5,2), 10);
+		lm_iDay = parseInt(this.value.substr(8,2), 10);
+
+		var tm_oDate = new Date(lm_iYear, lm_iMonth-1, lm_iDay);
+
+		if (isNaN(tm_oDate)) {
+			this.value = "";
+
+			tm_oDate = new Date();
+
+			lm_iYear = tm_oDate.getFullYear();
+			lm_iMonth = tm_oDate.getMonth() + 1;
+			lm_iDay = tm_oDate.getDate();
+		}
+	} else {
+		var tm_oDate = new Date();
+
+		lm_iYear = tm_oDate.getFullYear();
+		lm_iMonth = tm_oDate.getMonth() + 1;
+		lm_iDay = tm_oDate.getDate();
+	}
+
+	if (im_iArg == 0)
+		_fnAdjustCalendar();
+}
+
+function _fnSetDate(pm_sDate)
+{
+	this.value = pm_sDate;
+}
+
+function _fnShowCalendar()
+{
+	_fnGetDate();
+
+	var im_iLeft = lm_iLeft + window.top.document.body.clientWidth - window.document.body.clientWidth;
+	var im_iTop = lm_iTop + window.top.document.body.clientHeight - parent.document.body.clientHeight;
+
+	lm_oCalWin.show(im_iLeft, im_iTop, lm_iWidth, lm_iHeight, document.body);
+}
+
+function _fnHideCalendar()
+{
+	lm_oCalWin.hide();
+}
+
+// Calendar Object 위치관련...
+function _fnGetCalLeft(pm_oElement)
+{
+	return (pm_oElement.offsetParent == null) ? pm_oElement.offsetLeft : pm_oElement.offsetLeft + _fnGetCalLeft(pm_oElement.offsetParent)
+}
+
+function _fnGetCalTop(pm_oElement)
+{
+	return (pm_oElement.offsetParent == null) ? pm_oElement.offsetTop : pm_oElement.offsetTop + _fnGetCalTop(pm_oElement.offsetParent);
+}
+
+</script>

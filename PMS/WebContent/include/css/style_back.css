@@ -1,0 +1,183 @@
+/*기본설정*/
+
+body { 
+	margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px; 
+}
+
+body,td,input,select,div {	
+	font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;
+	color:#4a4a4a;
+	font-size:12px;
+	margin:0px;
+	padding:0px;
+}
+
+img { border-width:0px; }
+image { border-width:0px; }
+form { margin:0px;padding:0px; }
+
+.input { height:17px; border:1px solid #c0c0c0; padding:2;}
+.input_100 { width:100%; height:17px; border:1px solid #c0c0c0; padding:2;}
+.input_login { font-family: "돋움"; font-size: 12px; width:135px; height:26px; border:1px solid #c0c0c0; padding:3;}
+
+.txt_11px{
+	font-size:11px;
+}
+
+.txt_11px_white{
+	color:#ffffff;
+	font-size:11px;
+}
+
+/*롤오버 메뉴*/
+.menu1{
+	font-weight:bold;
+	padding: 0px 0px 0px 5px;
+	height:32;
+	cursor:hand;
+}
+
+.menu2{
+	color:ffffff;
+	font-weight:bold;
+	padding: 0px 0px 0px 5px;
+	height:32;
+	cursor:hand;
+}
+
+.menu3{
+	font-weight:bold;
+	padding: 0px 0px 0px 31px;
+	height:32;
+	cursor:hand;
+}
+
+.menu4{
+	color:#456cbb;
+	font-weight:bold;
+	padding: 0px 0px 0px 31px;
+	height:32;
+	cursor:hand;
+}
+
+/*롤오버 버튼*/
+img{border:none}
+div#btnR a img.over{display:none}
+div#btnR a:hover{position:relative}
+div#btnR a:hover img{display:none} 
+div#btnR a:hover img.over{display:inline}  
+div#btnR a img{vertical-align:middle}
+
+/*링크*/
+a {cursor:pointer;}
+a:link{color:#4a4a4a; text-decoration:none;}
+a:visited{color:#4a4a4a; text-decoration:none;}
+a:hover{color:#456cbb;}
+a:active{color:#456cbb; text-decoration:none;}
+
+a,area {blr:expression(this.onFocus=this.blur())}
+:focus { -moz-outline-style:none;}
+
+/*표*/
+table.default{
+	width:100%;
+	border:0;
+	border-spacing:0
+}
+
+table td.default{
+	background:#ffffff;
+	border:0;
+	height:23px;
+	padding:0px 7px 0px 7px;
+	line-height:18px;
+}
+
+table td.right{
+	background:#ffffff;
+	border:0;
+	height:23px;
+	padding:0px 7px 0px 7px;
+	line-height:18px;
+	text-align:right;
+}
+
+table td.center{
+	background:#ffffff;
+	border:0;
+	height:23px;
+	line-height:18px;
+	text-align:center;
+}
+
+table td.centergray{
+	background:#f3f3f3;
+	border:0;
+	height:23px;
+	line-height:18px;
+	text-align:center;
+}
+
+table td.centery{
+	background:#d5ef59;
+	border:0;
+	height:23px;
+	line-height:18px;
+	text-align:center;
+}
+
+table td.checkbox{
+	background:#ffffff;
+	border:0;
+	border-bottom:1px solid #e0e1e3;
+	border-right:1px solid #e0e1e3;
+	height:23px;
+}
+
+/*항목이 세로로 있는 테이블*/
+table td.gubunV {
+	border:0;
+	background:#e1e1e1;
+	vertical-align:middle;
+	height:23px;
+	font-weight:bold;
+	text-align:center;
+	}
+
+/*항목이 가로로 있는 테이블*/
+table td.gubunH {
+	border:0;
+	background:#e1e1e1;
+	vertical-align:middle;
+	padding:5px 0px 4px 0px;
+	font-weight:bold;
+	text-align:center;
+	}
+
+table td.gubunHy {
+	border:0;
+	background:#d5ef59;
+	vertical-align:middle;
+	padding:5px 0px 4px 0px;
+	font-weight:bold;
+	text-align:center;
+	}
+
+/*타이틀*/
+.title{
+	font-size:16px;
+	font-weight:bold;
+	height:24px;
+	vertical-align:top;
+}
+
+.subttl{
+	padding:15px 0px 15px 0px;
+	line-height:18px;
+}
+
+.popuptitle{
+	font-weight:bold;
+	color:#ffffff;
+	padding:0px 10px 0px 5px;
+}

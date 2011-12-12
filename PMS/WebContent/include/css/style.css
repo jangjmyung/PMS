@@ -1,0 +1,390 @@
+/*기본설정*/
+
+body { 
+	margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px; 
+}
+
+body,td,input,select,div {	
+	font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;
+	color:#4a4a4a;
+	font-size:12px;
+	margin:0px;
+	padding:0px;
+}
+
+img { border-width:0px; }
+image { border-width:0px; }
+form { margin:0px;padding:0px; }
+
+.input { height:17px; border:1px solid #c0c0c0; padding:2;}
+.input_100 { width:100%; height:17px; border:1px solid #c0c0c0; padding:2;}
+.input_login { font-family: "돋움"; font-size: 12px; width:135px; height:26px; border:1px solid #c0c0c0; padding:3;}
+.input21 { height:21px; border:1px solid #c0c0c0; padding:2;}
+
+.txt_11px{
+	font-size:11px;
+}
+
+.txt_11px_white{
+	color:#ffffff;
+	font-size:11px;
+}
+
+/*롤오버 메뉴*/
+.menu1{
+	font-weight:bold;
+	padding: 0px 0px 0px 5px;
+	height:32;
+	cursor:hand;
+}
+
+.menu2{
+	color:ffffff;
+	font-weight:bold;
+	padding: 0px 0px 0px 5px;
+	height:32;
+	cursor:hand;
+}
+
+.menu3{
+	font-weight:bold;
+	padding: 0px 0px 0px 31px;
+	height:32;
+	cursor:hand;
+}
+
+.menu4{
+	color:#456cbb;
+	font-weight:bold;
+	padding: 0px 0px 0px 31px;
+	height:32;
+	cursor:hand;
+}
+
+.menu5{
+	padding: 7px 0px 5px 31px;
+	line-height:20px;
+}
+
+/*버튼*/
+
+.submitbtn{
+ font-family:돋움;
+ color:#333333;
+ font-weight:bold;
+ background-image:url("/images/btn2.gif");
+ width:35px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn_on{
+ font-family:돋움;
+ color:#000000;
+ font-weight:bold;
+ background-image:url("/images/btn2_on.gif");
+ width:35px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn3{
+ font-family:돋움;
+ color:#333333;
+ font-weight:bold;
+ background-image:url("/images/btn3.gif");
+ width:50px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn3_on{
+ font-family:돋움;
+ color:#000000;
+ font-weight:bold;
+ background-image:url("/images/btn3_on.gif");
+ width:50px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn4{
+ font-family:돋움;
+ color:#333333;
+ font-weight:bold;
+ background-image:url("/images/btn4.gif");
+ width:60px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn4_on{
+ font-family:돋움;
+ color:#000000;
+ font-weight:bold;
+ background-image:url("/images/btn4_on.gif");
+ width:60px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn5{
+ font-family:돋움;
+ color:#333333;
+ font-weight:bold;
+ background-image:url("/images/btn5.gif");
+ width:75px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn5_on{
+ font-family:돋움;
+ color:#000000;
+ font-weight:bold;
+ background-image:url("/images/btn5_on.gif");
+ width:75px;
+ height:19px;
+ text-align:center;
+ padding:0 0 0 0;
+ cursor:hand;
+}
+
+.submitbtn6{
+ font-family:돋움;
+ color:#333333;
+ font-weight:bold;
+ background-image:url("/images/btn6.gif");
+ width:85px;
+ height:19px;
+ text-align:center;
+ cursor:hand;
+}
+
+.submitbtn6_on{
+ font-family:돋움;
+ color:#000000;
+ font-weight:bold;
+ background-image:url("/images/btn6_on.gif");
+ width:85px;
+ height:19px;
+ text-align:center;
+ cursor:hand;
+}
+
+.submitbtn7{
+ font-family:돋움;
+ color:#333333;
+ font-weight:bold;
+ background-image:url("/images/popup_btn2.gif");
+ width:56px;
+ height:23px;
+ text-align:center;
+ cursor:hand;
+}
+
+.submitbtn7_on{
+ font-family:돋움;
+ color:#000000;
+ font-weight:bold;
+ background-image:url("/images/popup_btn2_on.gif");
+ width:56px;
+ height:23px;
+ text-align:center;
+ cursor:hand;
+}
+
+
+
+/*롤오버 버튼*/
+img{border:none}
+div#btnR a img.over{display:none}
+div#btnR a:hover{position:relative}
+div#btnR a:hover img{display:none} 
+div#btnR a:hover img.over{display:inline}  
+div#btnR a img{vertical-align:middle}
+
+/*링크*/
+a {cursor:pointer;}
+a:link{color:#4a4a4a; text-decoration:none;}
+a:visited{color:#4a4a4a; text-decoration:none;}
+a:hover{color:#456cbb;}
+a:active{color:#456cbb; text-decoration:none;}
+
+a,area {blr:expression(this.onFocus=this.blur())}
+:focus { -moz-outline-style:none;}
+
+/*표*/
+table.default{
+	width:100%;
+	border:0;
+	border-spacing:0
+}
+
+table td.default{
+	background:#ffffff;
+	border:0;
+	height:23px;
+	padding:0px 7px 0px 7px;
+	line-height:18px;
+}
+
+table td.right{
+	background:#ffffff;
+	border:0;
+	height:23px;
+	padding:0px 7px 0px 7px;
+	line-height:18px;
+	text-align:right;
+}
+
+table td.center{
+	background:#ffffff;
+	border:0;
+	height:23px;
+	line-height:18px;
+	text-align:center;
+}
+
+table td.centergray{
+	background:#f3f3f3;
+	border:0;
+	height:23px;
+	line-height:18px;
+	text-align:center;
+}
+
+table td.centery{
+	background:#d5ef59;
+	border:0;
+	height:23px;
+	line-height:18px;
+	text-align:center;
+}
+
+table td.checkbox{
+	background:#ffffff;
+	border:0;
+	border-bottom:1px solid #e0e1e3;
+	border-right:1px solid #e0e1e3;
+	height:23px;
+}
+
+/*항목이 세로로 있는 테이블*/
+table td.gubunV {
+	border:0;
+	background:#e1e1e1;
+	vertical-align:middle;
+	height:23px;
+	font-weight:bold;
+	text-align:center;
+	}
+
+/*항목이 가로로 있는 테이블*/
+table td.gubunH {
+	border:0;
+	background:#e1e1e1;
+	vertical-align:middle;
+	padding:5px 0px 4px 0px;
+	font-weight:bold;
+	text-align:center;
+	}
+
+table td.gubunHy {
+	border:0;
+	background:#d5ef59;
+	vertical-align:middle;
+	padding:5px 0px 4px 0px;
+	font-weight:bold;
+	text-align:center;
+	}
+
+/*타이틀*/
+.title{
+	font-size:16px;
+	font-weight:bold;
+	height:24px;
+	vertical-align:top;
+}
+
+.subttl{
+	padding:15px 0px 15px 0px;
+	line-height:18px;
+}
+
+.popuptitle{
+	font-weight:bold;
+	color:#ffffff;
+	padding:0px 10px 0px 5px;
+}
+
+table td.mntgray1 {
+	border:2 solid #666666;
+	background:#808080;
+	color:#ffffff;
+	vertical-align:middle;
+	text-align:center;
+	}
+	
+table td.mntgray2 {
+	border:2 solid #e5e5e5;
+	background:#f0f0f0;
+	}
+	
+table td.mntgray3 {
+	border-top:2 solid #e5e5e5;
+	border-bottom:2 solid #e5e5e5;
+	border-right:2 solid #e5e5e5;
+	background:#f0f0f0;
+	font-size:11px;
+	line-height:11px;
+	padding:3px 5px 2px 5px;
+	}
+	
+table td.mntred2 {
+	border:2 solid #bd0000;
+	background:#ff0000;
+	color:#ffffff;
+	vertical-align:middle;
+	text-align:center;
+	}
+	
+table td.mntred1 {
+	border:2 solid #bd0000;
+	width:80px;
+	background:#ff0000;
+	color:#ffffff;
+	vertical-align:middle;
+	text-align:center;
+	font-weight:bold;
+	}
+	
+table td.mntblue {
+	border:2 solid #191f37;
+	width:80px;
+	background:#454d73;
+	color:#ffffff;
+	vertical-align:middle;
+	text-align:center;
+	font-weight:bold;
+	}
+	
+input.calendar { behavior:url(/include/js/calendar.htc); }
+
+.table_grd05 { border-collapse:collapse; border-color:#CECFCE; border-style:double; font-size:12px; }
+.table_grd05 td { border-color:#CECFCE; border-style:double; padding:5px; line-height:18px; }
+.title_cell { background-color:#EFEFEF; text-align:center; font-weight:bold; }
